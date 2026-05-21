@@ -1,0 +1,12 @@
+{
+  "name": "haloteman",
+  "version": "1.0.0",
+  "description": "Autonomous testing for HaloTeman app",
+  "main": "test_automation.js",
+  "scripts": {
+    "test": "node test_automation.js"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}

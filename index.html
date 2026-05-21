@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaloTeman - Komunikasi Tanpa Batas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HaloTeman</h1>
+            <p>Berbicara dan Mendengar Lebih Mudah</p>
+        </header>
+
+        <div class="modes-wrapper">
+            <!-- Mode Dengar -->
+            <section class="mode-card glass" id="mode-dengar">
+                <h2>Mode Dengar</h2>
+                <div class="text-display" id="transcript-display">
+                    <p class="placeholder">Teks akan muncul di sini...</p>
+                </div>
+                <button id="btn-listen" class="btn primary-btn">
+                    <span class="icon">🎤</span> Mulai Mendengar
+                </button>
+                <p id="listen-status" class="status">Menunggu...</p>
+            </section>
+
+            <!-- Mode Bicara -->
+            <section class="mode-card glass" id="mode-bicara">
+                <h2>Mode Bicara</h2>
+                <textarea id="text-input" placeholder="Ketik sesuatu untuk diucapkan..." rows="4"></textarea>
+                <div class="controls">
+                    <button id="btn-speak" class="btn secondary-btn">
+                        <span class="icon">🔊</span> Bicara
+                    </button>
+                    <button id="btn-clear" class="btn icon-btn" title="Hapus Teks">
+                        🗑️
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
