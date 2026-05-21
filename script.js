@@ -1,12 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Mode Dengar (Speech to Text)
     const btnListen = document.getElementById('btn-listen');
+    const btnCopy = document.getElementById('btn-copy');
     const transcriptDisplay = document.getElementById('transcript-display');
     const listenStatus = document.getElementById('listen-status');
+    const btnMinus = document.getElementById('btn-text-minus');
+    const btnPlus = document.getElementById('btn-text-plus');
 
     let recognition;
     let isRecording = false;
+    let currentFontSize = 1.25;
 
+    // Kontrol Ukuran Font
+    btnMinus.addEventListener('click', () => {
+        if (currentFontSize > 0.9) {
+            currentFontSize -= 0.15;
+            transcriptDisplay.style.fontSize = `${currentFontSize}rem`;
+        }
+    });
+
+    btnPlus.addEventListener('click', () => {
+        if (currentFontSize < 3.0) {
+            currentFontSize += 0.15;
+            transcriptDisplay.style.fontSize = `${currentFontSize}rem`;
+        }
+    });
+
+    // Salin Teks ke Clipboard
+    btnCopy.addEventListener('click', () => {
+        const text = transcriptDisplay.innerText.replace('Ucapan lawan bicara akan muncul menjadi teks di sini...', '').trim();
+        if (text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalIcon = btnCopy.innerHTML;
+                btnCopy.innerHTML = '✅';
+                setTimeout(() => { btnCopy.innerHTML = originalIcon; }, 2000);
+            }).catch(err => {
+                console.error('Gagal menyalin teks: ', err);
+            });
+        }
+    });
+
+    // Inisialisasi Web Speech API
     if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
@@ -104,16 +138,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
     // Mode Bicara (Text to Speech)
     const btnSpeak = document.getElementById('btn-speak');
     const btnClear = document.getElementById('btn-clear');
     const textInput = document.getElementById('text-input');
+    const chips = document.querySelectorAll('.chip');
+
+    // Fitur Frasa Cepat
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            textInput.value = chip.textContent;
+            btnSpeak.click(); // Langsung suarakan
+        });
+    });
 
     btnSpeak.addEventListener('click', () => {
         const text = textInput.value.trim();
         if (text !== '') {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Stop current speaking
+                window.speechSynthesis.cancel();
                 
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'id-ID';
