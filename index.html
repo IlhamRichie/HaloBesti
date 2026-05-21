@@ -2,74 +2,76 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HaloTeman - Aplikasi Komunikasi Inklusif</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HaloTeman - AAC App</title>
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#0f172a">
 </head>
 <body>
-    <div class="container">
+    <div class="app-container">
+        <!-- Header -->
         <header>
-            <h1>HaloTeman</h1>
-            <p class="subtitle">Asisten Komunikasi untuk Teman Tuli & Teman Wicara</p>
-            <p class="description">Aplikasi ini dirancang untuk menjembatani komunikasi. Gunakan <b>Mode Dengar</b> untuk membaca ucapan lawan bicara (membantu teman Tuli), dan <b>Mode Bicara</b> untuk menyuarakan teks yang diketik (membantu teman Wicara/Bisu).</p>
+            <div class="header-top">
+                <h1>HaloTeman</h1>
+                <select id="language-selector" class="glass-select">
+                    <option value="id-ID">🇮🇩 Indonesia</option>
+                    <option value="en-US">🇺🇸 English</option>
+                    <option value="jv-ID">🇮🇩 Jawa</option>
+                    <option value="su-ID">🇮🇩 Sunda</option>
+                </select>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-target="chat-mode">💬 Obrolan</button>
+                <button class="tab-btn" data-target="draw-mode">🖍️ Papan Tulis</button>
+            </div>
         </header>
 
-        <div class="modes-wrapper">
-            <!-- Mode Dengar -->
-            <section class="mode-card glass" id="mode-dengar">
-                <div class="card-header">
-                    <h2>Mode Dengar</h2>
-                    <div class="text-controls">
-                        <button id="btn-text-minus" class="btn-small" title="Perkecil Teks">A-</button>
-                        <button id="btn-text-plus" class="btn-small" title="Perbesar Teks">A+</button>
-                    </div>
-                </div>
-                <div class="text-display" id="transcript-display">
-                    <p class="placeholder">Ucapan lawan bicara akan muncul menjadi teks di sini...</p>
-                </div>
-                <div class="controls">
-                    <button id="btn-listen" class="btn primary-btn">
-                        <span class="icon">🎤</span> Mulai Mendengar
-                    </button>
-                    <button id="btn-copy" class="btn icon-btn" title="Salin Teks ke Clipboard">
-                        📋
-                    </button>
-                </div>
-                <p id="listen-status" class="status">Menunggu...</p>
-            </section>
-
-            <!-- Mode Bicara -->
-            <section class="mode-card glass" id="mode-bicara">
-                <div class="card-header">
-                    <h2>Mode Bicara</h2>
+        <!-- Mode Obrolan (Chat History) -->
+        <main id="chat-mode" class="mode-view active">
+            <div id="chat-history" class="chat-history">
+                <div class="message system-msg">Mulai percakapan. Sentuh ikon mic untuk mendengarkan.</div>
+            </div>
+            
+            <div class="chat-controls">
+                <div class="quick-phrases-scroll">
+                    <button class="chip">Halo!</button>
+                    <button class="chip">Terima kasih</button>
+                    <button class="chip">Tolong bantu saya</button>
+                    <button class="chip">Maaf, saya tidak bisa bicara</button>
+                    <button class="chip">Berapa harganya?</button>
+                    <button class="chip">Di mana toilet?</button>
+                    <button class="chip">Ya</button>
+                    <button class="chip">Tidak</button>
                 </div>
                 
-                <div class="quick-phrases">
-                    <span class="phrase-label">Frasa Cepat (Ketuk untuk langsung bicara):</span>
-                    <div class="chips-container">
-                        <button class="chip">Halo!</button>
-                        <button class="chip">Terima kasih</button>
-                        <button class="chip">Tolong bantu saya</button>
-                        <button class="chip">Maaf, saya tidak bisa bicara</button>
-                        <button class="chip">Berapa harganya?</button>
-                        <button class="chip">Ya</button>
-                        <button class="chip">Tidak</button>
-                    </div>
+                <div class="input-bar">
+                    <button id="btn-listen" class="action-btn mic-btn" title="Mulai Mendengar">
+                        🎤
+                    </button>
+                    <textarea id="text-input" placeholder="Ketik pesan..." rows="1"></textarea>
+                    <button id="btn-speak" class="action-btn speak-btn" title="Bicara">
+                        🔊
+                    </button>
                 </div>
+            </div>
+        </main>
 
-                <textarea id="text-input" placeholder="Ketik sesuatu untuk disuarakan oleh HP/Laptop Anda..." rows="4"></textarea>
-                
-                <div class="controls">
-                    <button id="btn-speak" class="btn secondary-btn">
-                        <span class="icon">🔊</span> Bicara
-                    </button>
-                    <button id="btn-clear" class="btn icon-btn" title="Hapus Teks">
-                        🗑️
-                    </button>
+        <!-- Mode Papan Tulis -->
+        <main id="draw-mode" class="mode-view hidden">
+            <div class="canvas-header">
+                <button id="btn-clear-canvas" class="btn-small">🗑️ Bersihkan Papan</button>
+                <div class="brush-tools">
+                    <input type="color" id="pen-color" value="#ffffff">
+                    <input type="range" id="pen-size" min="1" max="20" value="5">
                 </div>
-            </section>
-        </div>
+            </div>
+            <div class="canvas-container">
+                <canvas id="drawing-board"></canvas>
+            </div>
+        </main>
     </div>
     <script src="script.js"></script>
 </body>
